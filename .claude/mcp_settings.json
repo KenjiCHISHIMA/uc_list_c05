@@ -1,0 +1,29 @@
+{
+  "mcpServers": {
+    "supabase": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-supabase"
+      ],
+      "env": {
+        "SUPABASE_SERVICE_API_KEY": "${SUPABASE_SERVICE_API_KEY}",
+        "SUPABASE_AUTH_TOKEN": "${SUPABASE_AUTH_TOKEN}"
+      }
+    },
+    "serena": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/oraios/serena",
+        "serena",
+        "start-mcp-server",
+        "--project",
+        "/mnt/c/Users/kenji/アプリ作成/my_app/uc_list_c05",
+        "--transport",
+        "stdio"
+      ],
+      "env": {}
+    }
+  }
+}

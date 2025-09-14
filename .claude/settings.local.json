@@ -1,7 +1,20 @@
 {
   "permissions": {
     "allow": [
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(cat:*)",
+      "mcp__supabase__list_projects",
+      "WebFetch(domain:github.com)",
+      "Bash(uv:*)",
+      "Bash(serena:*)",
+      "Read(//home/kenji/.local/**)",
+      "Bash(python -m pip:*)",
+      "Bash(python3 -m pip:*)",
+      "Bash(python3:*)",
+      "Bash(source:*)",
+      "Bash(pip --version)",
+      "Bash(pip install:*)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []
