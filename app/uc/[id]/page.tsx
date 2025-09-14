@@ -11,7 +11,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ArrowLeft, Edit, Plus, Trash2 } from 'lucide-react'
 import { useUCStore } from '@/lib/store'
 import { UCFormDialog } from '@/components/uc-form-dialog'
-import { WaveCycleFormDialog } from '@/components/wave-cycle-form-dialog'
 import { DeleteConfirmationDialog } from '@/components/delete-confirmation-dialog'
 
 export default function UCDetailPage() {
@@ -19,7 +18,7 @@ export default function UCDetailPage() {
   const router = useRouter()
   const ucId = params.id as string
   
-  const { ucs, waveCycles, loading, fetchUCs, fetchWaveCycles, deleteUC, deleteWaveCycle } = useUCStore()
+  const { ucs, waveCycles, loading, fetchUCs, fetchWaveCycles, deleteUC } = useUCStore()
 
   const uc = ucs.find(u => u.id === ucId)
   const relatedWaveCycles = waveCycles.filter(wc => wc.uc_id === ucId)
@@ -152,22 +151,8 @@ export default function UCDetailPage() {
         {/* Related Wave Cycles */}
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle>関連Wave Cycle</CardTitle>
-                <CardDescription>このUCに関連するWave Cycleの一覧</CardDescription>
-              </div>
-              <WaveCycleFormDialog 
-                mode="create" 
-                ucId={ucId}
-                trigger={
-                  <Button>
-                    <Plus className="h-4 w-4 mr-2" />
-                    作成
-                  </Button>
-                }
-              />
-            </div>
+            <CardTitle>関連Wave Cycle</CardTitle>
+            <CardDescription>このUCに関連するWave Cycleの一覧</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="bg-card rounded-lg border max-h-[50vh] overflow-auto">
@@ -181,20 +166,19 @@ export default function UCDetailPage() {
                     <TableHead className="font-semibold">コスト</TableHead>
                     <TableHead className="font-semibold">竹中担当者</TableHead>
                     <TableHead className="font-semibold">TCS担当者</TableHead>
-                    <TableHead className="font-semibold">操作</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {relatedWaveCycles.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+                      <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
                         関連するWave Cycleがありません
                       </TableCell>
                     </TableRow>
                   ) : (
                     relatedWaveCycles.map((waveCycle) => (
-                      <TableRow 
-                        key={waveCycle.id} 
+                      <TableRow
+                        key={waveCycle.id}
                         className="cursor-pointer hover:bg-muted/50 transition-colors"
                         onClick={() => handleWaveCycleClick(waveCycle.id)}
                       >
@@ -205,37 +189,6 @@ export default function UCDetailPage() {
                         <TableCell>{waveCycle.cost || '-'}</TableCell>
                         <TableCell>{waveCycle.takenaka_poc || '-'}</TableCell>
                         <TableCell>{waveCycle.tcs_poc || '-'}</TableCell>
-                        <TableCell>
-                          <div className="flex gap-1">
-                            <WaveCycleFormDialog 
-                              mode="edit" 
-                              waveCycle={waveCycle}
-                              trigger={
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  onClick={(e) => e.stopPropagation()}
-                                >
-                                  <Edit className="h-3 w-3" />
-                                </Button>
-                              }
-                            />
-                            <DeleteConfirmationDialog
-                              title="Wave Cycle削除"
-                              description={`Wave Cycle「${waveCycle.id}」を削除しますか？`}
-                              onConfirm={() => deleteWaveCycle(waveCycle.id)}
-                              trigger={
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  onClick={(e) => e.stopPropagation()}
-                                >
-                                  <Trash2 className="h-3 w-3" />
-                                </Button>
-                              }
-                            />
-                          </div>
-                        </TableCell>
                       </TableRow>
                     ))
                   )}
